@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Natera Guerrero"
+    given-names: "Gabriel Alejandro"
+    orcid: "https://orcid.org/[TU_NUMERO_DE_ORCID]"
+title: "Biotech Sequence Suite"
+version: 1.0.0
+date-released: "2026-09-21"
+url: "https://github.com/Gabong0512/biotech-sequence-suite"
