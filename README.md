@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/1201636081.svg)](https://doi.org/10.5281/zenodo.22885794)
 # Biotech Sequence Suite: Genomic Analysis & HBB Molecular Diagnostic Engine
 
 **Biotech Sequence Suite** is a bioinformatics Python tool designed for DNA sequence processing, translation, and diagnostic analysis. The system is optimized to run in cloud environments such as Google Colab and features an interactive web Graphical User Interface (GUI) powered by Gradio.
