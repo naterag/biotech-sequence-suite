@@ -1,0 +1,21 @@
+{
+  "title": "Biotech Sequence Suite: Herramienta de análisis y diagnóstico de secuencias de ADN",
+  "description": "Suite bioinformática en Python para el análisis de secuencias de ADN, traducción de proteínas y diagnóstico de hemoglobinopatías (HbA, HbS, HbC). Incluye interfaz gráfica con Gradio.",
+  "creators": [
+    {
+      "name": "Natera Guerrero, Gabriel Alejandro",
+      "affiliation": "Universidad Latina de Panamá",
+      "orcid": "0009-0001-7529-7318"
+    }
+  ],
+  "keywords": [
+    "bioinformatics",
+    "biotechnology",
+    "DNA sequencing",
+    "hemoglobinopathies",
+    "Python"
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open"
+}
