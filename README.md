@@ -5,7 +5,7 @@
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 * **Rapid DNA Sanitization:** Non-genomic noise filtering using regular expressions (`regex`) to standardize sequences to upper-case canonical bases.
 * **6-Reading Frame Translation:** Automatic generation of primary amino acid structures across all three forward reading frames ($+1, +2, +3$) and three reverse-complement frames ($-1, -2, -3$).
@@ -14,7 +14,7 @@
 
 ---
 
-## 🧬 Diagnostic Logic ($HBB$ Gene)
+## Diagnostic Logic ($HBB$ Gene)
 
 The diagnostic module evaluates Position 6 of the $HBB$ gene (adjusted to Position 7 when the sequence includes the start codon `ATG` / Methionine):
 
@@ -26,7 +26,7 @@ The diagnostic module evaluates Position 6 of the $HBB$ gene (adjusted to Positi
 
 ---
 
-## 🛠️ Code Architecture
+## Code Architecture
 
 The project is structured into modular functional blocks:
 
@@ -41,7 +41,7 @@ The project is structured into modular functional blocks:
 
 ---
 
-## 🚀 Execution Guide (Google Colab)
+## Execution Guide (Google Colab)
 
 1. Open a new notebook in **Google Colab**.
 2. Paste and run the core engine script in **Cell 1**.
@@ -50,7 +50,7 @@ The project is structured into modular functional blocks:
 
 ---
 
-## 📊 Test Cases
+## Test Cases
 
 You can test the suite using the following control sequences:
 
