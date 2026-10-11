@@ -1,59 +1,99 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22885794.svg)](https://doi.org/10.5281/zenodo.22885794)
+
 # Biotech Sequence Suite: Genomic Analysis & HBB Molecular Diagnostic Engine
 
-**Biotech Sequence Suite** is a bioinformatics Python tool designed for DNA sequence processing, translation, and diagnostic analysis. The system is optimized to run in cloud environments such as Google Colab and features an interactive web Graphical User Interface (GUI) powered by Gradio.
+**Biotech Sequence Suite** is a Python bioinformatics tool for DNA sequence processing, 6-frame translation and detection of variants at residue 6 of the human beta-globin gene (*HBB*): HbA (normal), HbS (sickle cell) and HbC. It uses [Biopython](https://biopython.org/) for translation and ships with an interactive web interface built with [Gradio](https://www.gradio.app/), available in **English and Spanish**.
+
+> **Disclaimer:** this is an educational tool. It is **not** a clinical diagnostic and must not be used to make medical decisions.
 
 ---
 
 ## Key Features
 
-* **Rapid DNA Sanitization:** Non-genomic noise filtering using regular expressions (`regex`) to standardize sequences to upper-case canonical bases.
-* **6-Reading Frame Translation:** Automatic generation of primary amino acid structures across all three forward reading frames ($+1, +2, +3$) and three reverse-complement frames ($-1, -2, -3$).
-* **$HBB$ Molecular Diagnostic Engine:** Variant detection at the critical Position 6 of the Human Beta-Globin gene, featuring dynamic index offset logic to account for the initiator Methionine ($M$).
-* **Web-Based Interactive GUI:** Real-time deployment using Gradio components inside Google Colab for fast sequence input and clinical report visualization.
+* **DNA sanitization:** removes non-genomic noise (spaces, numbers, line breaks, other characters) with regular expressions and standardizes the input to upper-case `A`, `T`, `G`, `C`.
+* **6-reading-frame translation:** translates the three forward frames (+1, +2, +3) and the three reverse-complement frames (-1, -2, -3) using Biopython. Sequences are trimmed to a multiple of 3 before translation.
+* **HBB variant detection (residue 6):** searches the six frames for the start of beta-globin (motif `VHLTP`, residues 1-5) and reads residue 6. Because it scans all frames, it works when the gene is preceded by extra sequence, is not in frame +1, or is given as the reverse strand.
+* **Bilingual interface (EN/ES):** the language of the report is selected from the interface.
+* **Sequence metrics:** length (bp) and GC content.
 
 ---
 
-## Diagnostic Logic ($HBB$ Gene)
+## Diagnostic Logic (*HBB* gene)
 
-The diagnostic module evaluates Position 6 of the $HBB$ gene (adjusted to Position 7 when the sequence includes the start codon `ATG` / Methionine):
+The engine locates the motif `VHLTP` (residues 1-5 of the mature beta-globin chain) and evaluates the next residue, residue 6:
 
-| Phenotype / Condition | Amino Acid at Key Position | Representative Codon | Clinical Classification |
+| Result | Residue 6 | Representative codons | Variant (classic / HGVS) |
 | :--- | :---: | :---: | :--- |
-| **HbA (Wild Type)** | Glutamic Acid (`E`) | `GAG` / `GAA` | **Normal:** Fully functional Beta-Globin chain. |
-| **HbS (Sickle Cell Anemia)** | Valine (`V`) | `GTG` / `GTT` | **Pathogenic (Glu6Val):** Promotes HbS polymerization and erythrocyte sickling. |
-| **HbC (Hemoglobin C Disease)** | Lysine (`K`) | `AAG` / `AAA` | **Pathogenic (Glu6Lys):** Leads to hemoglobin crystallization and mild-to-moderate hemolytic anemia. |
+| **HbA (wild type)** | Glutamic acid (`E`) | `GAG` / `GAA` | No variant detected at residue 6 |
+| **HbS (sickle hemoglobin)** | Valine (`V`) | `GTG` / `GTT` | Glu6Val / p.Glu7Val |
+| **HbC (hemoglobin C)** | Lysine (`K`) | `AAG` / `AAA` | Glu6Lys / p.Glu7Lys |
+| **Atypical** | Any other | - | Flagged for review |
+
+Numbering note: the classic nomenclature (Glu6Val) does not count the initiator methionine, while HGVS does (p.Glu7Val). Both are shown in the report.
+
+**Limitations:** only residue 6 is evaluated, so other *HBB* variants are not covered. If the `VHLTP` motif is not found in any frame, the tool reports that residue 6 cannot be evaluated.
 
 ---
 
-## Code Architecture
+## Installation and Usage
 
-The project is structured into modular functional blocks:
+Requires Python 3.9 or newer.
 
-1. **Genetic Mapping:** Optimized standard genetic code dictionary mapping DNA triplets to amino acid residues.
-2. **Processing Engine:**
-   * `clean_sequence()`: Filters non-canonical bases using `[^ATGC]`.
-   * `translate_dna()`: Translates triplets into primary peptide sequences.
-   * `get_reverse_complement()`: Generates reverse-complementary antiparallel DNA strands.
-   * `translate_6_frames()`: Computes all $+1, +2, +3, -1, -2, -3$ reading frames in parallel.
-3. **Molecular Diagnostic Engine:** `run_hbb_diagnostic()` evaluates specific biomarkers and generates structured diagnostic reports.
-4. **GUI Engine:** Interactive web layout deployed seamlessly via Gradio.
+```bash
+git clone https://github.com/naterag/biotech-sequence-suite.git
+cd biotech-sequence-suite
+pip install -r requirements.txt
+python app.py
+```
 
----
+Open the local URL that Gradio prints in the terminal, paste a DNA sequence, choose a language and read the report.
 
-## Execution Guide (Google Colab)
+### Google Colab
 
-1. Open a new notebook in **Google Colab**.
-2. Paste and run the core engine script in **Cell 1**.
-3. Paste and run the Gradio interface script in **Cell 2**.
-4. Click the generated public URL or interact directly with the web GUI embedded inside the notebook.
+The notebook `biotech_sequence_suite.ipynb` contains the original version of the project (without Biopython), designed to run in Google Colab and share a temporary public link. The up-to-date version of the code is `app.py`.
 
 ---
 
 ## Test Cases
 
-You can test the suite using the following control sequences:
+You can test the tool with these control sequences:
 
-* **HbA Sample (Wild Type):** `ATGGTGCACCTGACTCCTGAGGAGAAGTCTGCCGTTACT`
-* **HbS Sample (Sickle Cell):** `ATGGTGCACCTGACTCCTGTGGAGAAGTCTGCCGTTACT`
-* **HbC Sample (Hemoglobin C):** `ATGGTGCACCTGACTCCTAAGGAGAAGTCTGCCGTTACT`
+* **HbA (wild type):** `ATGGTGCACCTGACTCCTGAGGAGAAGTCTGCCGTTACT`
+* **HbS (sickle cell):** `ATGGTGCACCTGACTCCTGTGGAGAAGTCTGCCGTTACT`
+* **HbC (hemoglobin C):** `ATGGTGCACCTGACTCCTAAGGAGAAGTCTGCCGTTACT`
+
+### Automated tests
+
+The same sequences (forward, with extra leading sequence and as reverse complement) are covered by automated tests:
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+---
+
+## Code Architecture
+
+`app.py` is organized in four blocks:
+
+1. **Translations (i18n):** `TRANSLATIONS` dictionary with every message in English and Spanish, and the helper `t()`.
+2. **Processing engine:**
+   * `clean_sequence()`: filters non-canonical bases with `[^ATGC]`.
+   * `translate_6_frames()`: computes the six reading frames with Biopython.
+3. **Diagnostic engine:**
+   * `find_hbb_residue6()`: finds the `VHLTP` motif in any frame and returns residue 6.
+   * `run_hbb_diagnostic()`: builds the structured report.
+4. **GUI:** `analyze_dna_gui()` connects the engine with the Gradio interface.
+
+Tests live in `tests/test_app.py`.
+
+---
+
+## Citation
+
+If you use this software, please cite it using the DOI above or the metadata in `CITATION.cff`.
+
+## License
+
+Released under the [MIT License](LICENSE).
