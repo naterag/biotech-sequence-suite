@@ -1,6 +1,6 @@
 {
   "title": "Biotech Sequence Suite: DNA Sequence Analysis and Diagnostic Tool",
-  "description": "A Python bioinformatics suite for DNA sequence analysis, protein translation, and molecular diagnosis of hemoglobinopathies (HbA, HbS, HbC). Includes a Gradio graphical user interface.",
+  "description": "A Python bioinformatics tool for DNA sequence analysis, 6-frame protein translation (Biopython) and detection of HBB residue 6 variants (HbA, HbS, HbC). Includes a bilingual (English/Spanish) Gradio graphical user interface. Educational tool, not a clinical diagnostic.",
   "creators": [
     {
       "name": "Natera Guerrero, Gabriel Alejandro",
@@ -13,6 +13,8 @@
     "biotechnology",
     "DNA sequencing",
     "hemoglobinopathies",
+    "HBB",
+    "Biopython",
     "Python"
   ],
   "license": "MIT",
